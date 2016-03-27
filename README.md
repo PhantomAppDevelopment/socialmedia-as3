@@ -6,17 +6,17 @@ This can be accomplished by just using StageWebView and URLRequest, no need for 
 
 Some examples of what you can achieve are:
 
-  - Send a tweet on behalf the user.
-  - Allow the user to Like/Share your app.
-  - Load a user profile information (name, profile picture, email address, friend list).
+* Send a tweet on behalf the user.
+* Allow the user to Like/Share your app.
+* Load a user profile information (name, profile picture, email address, friend list).
 
 ## Getting Started
 
 Before you start you will require:
 
-  - A valid cellphone number. Registration on the Facebook, Twitter and Google developer portals require a cellphone number where they can confirm your account by SMS.
-  - The Adobe AIR SDK, preferably a recent version.
-  - The [AS3 Crypto](http://crypto.hurlant.com/demo/as3crypto.swc) library.
+* A valid cellphone number. Registration on the Facebook, Twitter and Google developer portals require a cellphone number where they can confirm your account by SMS.
+* The Adobe AIR SDK, preferably a recent version.
+* The [AS3 Crypto](http://crypto.hurlant.com/demo/as3crypto.swc) library.
 
 These guides are compatible on the Apache Flex SDK, Starling Framework and pure AS3, you are free to choose the framework of your choice. The examples are provided for pure AS3 and are designed to be easily copied and pasted.
 
@@ -44,16 +44,16 @@ This workflow varies a bit on each social network, the differences will be clear
 
 ## Glossary
 
-  - StageWebView: An Adobe AIR component that allows applications to show an embedded web browser.
+* StageWebView: An Adobe AIR component that allows applications to show an embedded web browser.
 
-  - URLRequest: An ActionScript 3 class for creating and sending requests to external resources, such as web servers.
+* URLRequest: An ActionScript 3 class for creating and sending requests to external resources, such as web servers.
 
-  - App ID: A string unique to your application that identifies it to the OAuth server. Used as a parameter in a Request Token.
+* App ID: A string unique to your application that identifies it to the OAuth server. Used as a parameter in a Request Token.
 
-  - Redirect URI/URL: A location where the StageWebView will be redirected upon a successful authorization. This location will contain a code/token that muse be retrieved for creating a Token Request.
+* Redirect URI/URL: A location where the StageWebView will be redirected upon a successful authorization. This location will contain a code/token that muse be retrieved for creating a Token Request.
 
-  - Request Token: A string containing several parameters which will be exchanged for an Access Token.
+* Request Token: A string containing several parameters which will be exchanged for an Access Token.
 
-  - Access Token: An alphanumeric string that is used as a parameter in URLRequests to access private resources.
+* Access Token: An alphanumeric string that is used as a parameter in URLRequests to access private resources.
 
 Each social network guide is separated into their own folder, feel free to read them in any order.
