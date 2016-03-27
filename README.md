@@ -6,9 +6,9 @@ This can be accomplished by just using StageWebView and URLRequest, no need for 
 
 Some examples of what you can achieve are:
 
-Send a tweet on behalf the user.
-Allow the user to Like/Share your app.
-Load a user profile information (name, profile picture, email address, friend list).
+  - Send a tweet on behalf the user.
+  - Allow the user to Like/Share your app.
+  - Load a user profile information (name, profile picture, email address, friend list).
 
 ## Getting Started
 

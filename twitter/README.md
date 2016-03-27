@@ -15,8 +15,9 @@ Integrating Twitter functionality in your application requires the following lib
   3. Fill all the fields as normally. Once you reach the Callback URL provide the URL of the empty html file you have hosted. For example: http://phantom.im/example.html
 
   4. Go to the Settings tab and make sure these two options are checked:
-  - Enable Callback Locking (It is recommended to enable callback locking to ensure apps cannot overwrite the callback url)
-  - Allow this application to be used to Sign in with Twitter
+
+  * Enable Callback Locking (It is recommended to enable callback locking to ensure apps cannot overwrite the callback url)
+  * Allow this application to be used to Sign in with Twitter
 
   5. Go to the 'Keys and Access Tokens' tab and copy down your Consumer Key and Consumer Secret.
 
@@ -83,7 +84,7 @@ private function locationChange(event:LocationChangeEvent):void
 
 We start listening for a LocationChange event (every time the web browser changes its web page) once a web page contaings the oauth_verifier parameter we dispose the StageWebView and extract the parameter to a variable.
 
-Now we are going to exchange the oauth_verifier for an access_token.
+Then we called the oauth_accessToken method with our verifier as its parameter. Now we're going to listen for the response which will return the access_token.
 
 ```actionscript
 private function tokenComplete(event:TwitterRequestEvent):void
@@ -93,7 +94,7 @@ private function tokenComplete(event:TwitterRequestEvent):void
 }
 ```
 
-Our Access Token is saved in the TwitterTokenSet object and will be automatically be used in future requests to the API. In this case we call the account_verifyCredentialts method which returns detailed information of the logged in user.
+Our Access Token is saved in the TwitterTokenSet object (behind the scenes) and will be automatically be used in future requests to the API. In this case we call the account_verifyCredentialts method which returns detailed information of the logged in user.
 
 ```actionscript
 private function credentialsComplete(event:TwitterRequestEvent):void
