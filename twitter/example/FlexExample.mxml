@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:WindowedApplication xmlns:fx="http://ns.adobe.com/mxml/2009" 
+					   xmlns:s="library://ns.adobe.com/flex/spark" 
+					   xmlns:mx="library://ns.adobe.com/flex/mx" minWidth="800" minHeight="600" applicationComplete="init(event)">
+	<fx:Script>
+		<![CDATA[
+			import mx.events.FlexEvent;
+			
+			import isle.susisu.twitter.Twitter;
+			import isle.susisu.twitter.TwitterRequest;
+			import isle.susisu.twitter.events.TwitterRequestEvent;						
+			
+			private static const CONSUMER_KEY:String = "";
+			private static const CONSUMER_SECRET:String = "";
+						
+			private var webView:StageWebView;
+			private var twitter:Twitter;
+			private var credentialsRequest:TwitterRequest;
+					
+			protected function init(event:FlexEvent):void
+			{
+				twitter = new Twitter(CONSUMER_KEY, CONSUMER_SECRET);
+				
+				var rtRequest:TwitterRequest = twitter.oauth_requestToken("http://phantom.im/example.html");
+				rtRequest.addEventListener(TwitterRequestEvent.COMPLETE, requestComplete);							
+			}
+			
+			private function requestComplete(event:TwitterRequestEvent):void
+			{
+				webView = new StageWebView(true);
+				webView.stage = this.stage;
+				webView.viewPort = new Rectangle(0, 0, this.stage.stageWidth, this.stage.stageHeight);
+				webView.addEventListener(LocationChangeEvent.LOCATION_CHANGE, locationChange);
+				webView.loadURL(twitter.getOAuthAuthorizeURL());
+			}
+			
+			private function locationChange(event:LocationChangeEvent):void
+			{
+				var url:String = webView.location;
+				if(url.indexOf("oauth_verifier=") != -1){										
+					webView.dispose();						
+					var verifier:String = url.substr(url.indexOf("oauth_verifier=")+15, url.length);
+					
+					var atRequest:TwitterRequest = twitter.oauth_accessToken(verifier);
+					atRequest.addEventListener(TwitterRequestEvent.COMPLETE, tokenComplete);
+				}				
+			}			
+			
+			private function tokenComplete(event:TwitterRequestEvent):void
+			{
+				credentialsRequest = twitter.account_verifyCredentials();
+				credentialsRequest.addEventListener(TwitterRequestEvent.COMPLETE, credentialsComplete);
+				
+				//twitter.statuses_update("Hello");
+			}
+			
+			private function credentialsComplete(event:TwitterRequestEvent):void
+			{
+				trace(credentialsRequest.response);
+				
+				var response:Object = JSON.parse(String(credentialsRequest.response));
+				
+				trace(response.name);
+				trace(response.profile_image_url);				
+			}			
+			
+		]]>
+	</fx:Script>
+	
+</s:WindowedApplication>
