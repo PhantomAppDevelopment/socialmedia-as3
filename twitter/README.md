@@ -8,18 +8,18 @@ Integrating Twitter functionality in your application requires the following lib
 
 ## Getting Started
 
-  1. Register in the [Twitter Developer portal](https://dev.twitter.com). You may be asked to provide a valid cellphone number to complete your registration.
+1. Register in the [Twitter Developer portal](https://dev.twitter.com). You may be asked to provide a valid cellphone number to complete your registration.
   
-  2. Once registered locate a button that says: 'Create New App' and click it.
+2. Once registered locate a button that says: 'Create New App' and click it.
   
-  3. Fill all the fields as normally. Once you reach the Callback URL provide the URL of the empty html file you have hosted. For example: http://phantom.im/example.html
+3. Fill all the fields as normally. Once you reach the Callback URL, provide the URL of the empty HTML file you have hosted. For example: `http://phantom.im/examples.html`
 
-  4. Go to the Settings tab and make sure these two options are checked:
+4. Go to the Settings tab and make sure these two options are checked:
 
 * Enable Callback Locking (It is recommended to enable callback locking to ensure apps cannot overwrite the callback url)
 * Allow this application to be used to Sign in with Twitter
 
-Go to the 'Keys and Access Tokens' tab and copy down your Consumer Key and Consumer Secret.
+5. Go to the 'Keys and Access Tokens' tab and copy down your Consumer Key and Consumer Secret.
 
 ![Correct Settings](./images/1.png)
 
@@ -32,17 +32,17 @@ Open the file where you want to implement the Sign-In feature.
 Add the following constants and variables:
 
 ```actionscript
-private static const CONSUMER_KEY:String = "YOur Consumer Key";
+private static const CONSUMER_KEY:String = "Your Consumer Key";
 private static const CONSUMER_SECRET:String = "Your Consumer Secret";
 						
 private var webView:StageWebView;
 private var twitter:Twitter;
 private var credentialsRequest:TwitterRequest;
 ```
-Add a button and assign an event listener to it when it gets pressed. The code of the Event Listener should be as follows:
+Add a button and assign an `EventListener` to it when it gets pressed. The code of the EventListener should be as follows:
 
 ```actionscript
-protected function buttonHandler():void
+private function buttonHandler():void
 {
 	twitter = new Twitter(CONSUMER_KEY, CONSUMER_SECRET);
 				
@@ -51,7 +51,7 @@ protected function buttonHandler():void
 }
 ```
 
-The URL must be the same as the one on the Twitter Developer portal. We now need to add the requestComplete function.
+The URL must be the same as the one in the Twitter Developer portal. We now need to add the `requestComplete` function.
 
 ```actionscript
 private function requestComplete(event:TwitterRequestEvent):void
@@ -64,7 +64,7 @@ private function requestComplete(event:TwitterRequestEvent):void
 }
 ```
 
-We initialized a StageWebView instance, set its dimensions to match the stage size and assign the URL provided by the Twitter API. Now we are going to retrieve a token located in the URL.
+We initialized a StageWebView instance, set its dimensions to match the stage size and assigned the URL provided by the Twitter API. Now we are going to retrieve a token located in the URL.
 
 ```actionscript
 private function locationChange(event:LocationChangeEvent):void
@@ -82,9 +82,9 @@ private function locationChange(event:LocationChangeEvent):void
 }
 ```
 
-We start listening for a LocationChange event (every time the web browser changes its web page) once a web page contains the oauth_verifier parameter we dispose the StageWebView and extract the parameter to a variable.
+We start listening for a `LocationChange` event (every time the web browser changes its web page), once a web page contains the `oauth_verifier` parameter we dispose the StageWebView and extract the parameter to a variable.
 
-Then we called the oauth_accessToken method with our verifier as its parameter. Now we're going to listen for the response which will return the access_token.
+Then we called the `oauth_accessToken` method with our verifier as its parameter. Now we're going to listen for the response which will return the `access_token`.
 
 ```actionscript
 private function tokenComplete(event:TwitterRequestEvent):void
@@ -94,7 +94,7 @@ private function tokenComplete(event:TwitterRequestEvent):void
 }
 ```
 
-Our Access Token is saved in the TwitterTokenSet object (behind the scenes) and will be automatically used in future requests to the API. In this case we call the account_verifyCredentialts method which returns detailed information of the logged in user.
+Our Access Token is saved in the `TwitterTokenSet` object (behind the scenes) and will be automatically used in future requests to the API. In this case we call the `account_verifyCredentials` method which returns detailed information of the logged in user.
 
 ```actionscript
 private function credentialsComplete(event:TwitterRequestEvent):void

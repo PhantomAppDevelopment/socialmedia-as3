@@ -2,7 +2,7 @@
 
 This repository contains guides that allow your Adobe AIR applications to interact with social media networks.
 
-This can be accomplished by just using StageWebView and URLRequest, no need for ANE is required.
+This can be accomplished by just using StageWebView and URLRequest, this method doesn't require an ANE.
 
 Some examples of what you can achieve are:
 
@@ -14,33 +14,33 @@ Some examples of what you can achieve are:
 
 Before you start you will require:
 
-* A valid cellphone number. Registration on the Facebook, Twitter and Google developer portals require a cellphone number where they can confirm your account by SMS.
+* A valid cellphone number. Registration in the Facebook, Twitter and Google developer portals require a cellphone number where they can confirm your account by SMS.
 * The Adobe AIR SDK, preferably a recent version.
 * The [AS3 Crypto](http://crypto.hurlant.com/demo/as3crypto.swc) library.
 
-These guides are compatible on the Apache Flex SDK, Starling Framework and pure AS3, you are free to choose the framework of your choice. The examples are provided for pure AS3 and are designed to be easily copied and pasted.
+These guides are compatible with the Apache Flex SDK, Starling Framework and pure AS3 in both Desktop and Mobile projects, you are free to choose the framework of your choice. The examples are provided for all 3 frameworks and are designed to be easily copied and pasted.
 
-These guides do not work on the Flash Player because it doesn't support the StageWebView API. If you wish to integrate social media in your Flash Player file you can do it by using their JavaScript libraries and listening to ExternalInteface events.
+These guides do not work in Flash Player projects because it doesn't support the StageWebView API. If you wish to integrate social media in your Flash Player file you can do it by using their JavaScript libraries and using the `ExternalInterface` API.
 
 ## Introduction to OAuth
 
-The OAuth protocol allows third party applications to interact securely with private resources without sharing the logged user credentials.
+The OAuth protocol allows third party applications to interact securely with private resources without exposing the logged user credentials.
 
 The standard workflow is as follows:
 
-  1. The user wants to access some feature in your app that requires a log-in.
+1. The user wants to access some feature in your app that requires a log-in.
  
-  2. The user is presented with a Sign-In button and presses it.
+2. The user is presented with a Sign-In button and presses it.
  
-  3. A modal window appears (Pop-Up) with a web browser inside (StageWebView) where the user must enter their username and password and allow the permissions the app requested.
+3. A modal window appears (Pop-Up) with a web browser inside (StageWebView) where the user must enter their username and password and allow the permissions the app requested.
  
-  4. Once the user has successfully logged in the web browser it will be redirected to a 'Success' page that will contain a token/code.
+4. Once the user has successfully logged in, the web browser will be redirected to a 'Success' page that will contain a token/code.
  
-  5. The app will need to grab said code and perform an URLRequest to the server where the code will be exchanged for an Access Token.
+5. The app will need to grab said code and perform an `URLRequest` to the OAuth server where the code will be exchanged for an Access Token.
  
-  6. Once the app has gotten the Access Token it will be used to interact with private resources, such as fetching friends lists, user profile and more.
+  6. Once the app has gotten the Access Token it will be used to interact with private resources, such as fetching friends lists, users profiles and more.
 
-This workflow varies a bit on each social network, the differences will be cleared in their respective guides.
+This workflow varies a bit on each social network, the differences will be outlined in their respective guides.
 
 ## Glossary
 
@@ -50,10 +50,18 @@ This workflow varies a bit on each social network, the differences will be clear
 
 * App ID: A string unique to your application that identifies it to the OAuth server. Used as a parameter in a Request Token.
 
-* Redirect URI/URL: A location where the StageWebView will be redirected upon a successful authorization. This location will contain a code/token that muse be retrieved for creating a Token Request.
+* Scope: A parameter in a Request Token that contains the permissions the app requires.
+
+* Redirect URI/URL: A location where the StageWebView will be redirected upon a successful authorization. This location will contain a code/token that will be retrieved for creating a Token Request.
+
+* OOB: Out-of-bounds, a special OAuth parameter that indicates that a PIN-less authorization is requested.
 
 * Request Token: A string containing several parameters which will be exchanged for an Access Token.
 
 * Access Token: An alphanumeric string that is used as a parameter in URLRequests to access private resources.
 
 Each social network guide is separated into their own folder, feel free to read them in any order.
+
+Donations are not required but are greatly appreciated! Feel free to help grow this project.
+
+[![Donate](https://www.paypalobjects.com/en_US/i/btn/btn_donate_LG.gif)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=MQPLL355ZAKXW)

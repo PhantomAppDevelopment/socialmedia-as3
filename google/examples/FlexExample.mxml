@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:WindowedApplication xmlns:fx="http://ns.adobe.com/mxml/2009" 
+					   xmlns:s="library://ns.adobe.com/flex/spark" 
+					   xmlns:mx="library://ns.adobe.com/flex/mx" minWidth="800" minHeight="600" applicationComplete="windowedapplication1_applicationCompleteHandler(event)">
+	<fx:Script>
+		<![CDATA[
+			import mx.events.FlexEvent;
+			
+			private static const CLIENT_ID:String = "";
+			private static const CLIENT_SECRET:String = "";
+			
+			private var webView:StageWebView;			
+			private var code:String;
+			private var access_token:String;
+			private var accessTokenLoader:URLLoader;
+			private var profileLoader:URLLoader;
+						
+			
+			private function windowedapplication1_applicationCompleteHandler(event:FlexEvent):void
+			{
+				webView = new StageWebView(true);
+				webView.addEventListener(LocationChangeEvent.LOCATION_CHANGE, changeLocation);
+				webView.stage = this.stage;
+				webView.viewPort = new Rectangle(0, 0, stage.stageWidth, stage.stageHeight);
+				webView.loadURL("https://accounts.google.com/o/oauth2/v2/auth?scope=email%20profile&redirect_uri=urn:ietf:wg:oauth:2.0:oob:auto&response_type=code&client_id="+CLIENT_ID);
+			}
+			
+			private function changeLocation(event:LocationChangeEvent):void
+			{
+				var pageTitle:String = webView.title;
+				
+				if(pageTitle.indexOf("code=") != -1){
+					webView.dispose();
+					code = pageTitle.substr(pageTitle.indexOf("code=")+5, pageTitle.length);
+					
+					getAccessToken();
+				}				
+			}
+			
+			private function getAccessToken():void
+			{				
+				var urlVars:URLVariables = new URLVariables();
+				urlVars.code = code;
+				urlVars.client_id = CLIENT_ID;
+				urlVars.client_secret = CLIENT_SECRET;
+				urlVars.redirect_uri = "urn:ietf:wg:oauth:2.0:oob:auto";
+				urlVars.grant_type = "authorization_code";
+				
+				var request:URLRequest = new URLRequest("https://www.googleapis.com/oauth2/v4/token");
+				request.method = URLRequestMethod.POST;
+				request.data = urlVars;
+				
+				accessTokenLoader = new URLLoader();
+				accessTokenLoader.addEventListener(Event.COMPLETE, accessTokenReceived);
+				accessTokenLoader.load(request);
+			}
+			
+			private function accessTokenReceived(event:Event):void
+			{				
+				var rawData:Object = JSON.parse(String(event.currentTarget.data));
+				access_token = rawData.access_token;
+				
+				loadProfileInfo();
+			}
+			
+			private function loadProfileInfo():void
+			{
+				profileLoader = new URLLoader();
+				profileLoader.addEventListener(Event.COMPLETE, profileLoaded);
+				profileLoader.load(new URLRequest("https://www.googleapis.com/plus/v1/people/me?access_token="+access_token));
+			}
+			
+			private function profileLoaded(event:Event):void
+			{
+				trace(event.currentTarget.data);
+			}
+			
+		]]>
+	</fx:Script>
+	
+</s:WindowedApplication>
