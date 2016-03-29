@@ -139,17 +139,3 @@ private function profileLoaded(event:Event):void
 
 You can check a list of all Scopes in the [OAuth 2.0 Scopes for Google APIs.](https://developers.google.com/identity/protocols/googlescopes#plusv1)
 Rememeber to Enable the corresponding APIs in the Google Developer Console.
-
-
-
-
-
-
-
-
-
-
-
-
-
-We listen for the response and create an Object from it using the JSON parser. From there you can take the information you need.

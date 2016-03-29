@@ -2,7 +2,7 @@
 
 This repository contains guides that allow your Adobe AIR applications to interact with social media networks.
 
-This can be accomplished by just using StageWebView and URLRequest, this method doesn't require an ANE.
+This can be accomplished by just using `StageWebView` and `URLRequest`, this method doesn't require an `ANE`.
 
 Some examples of what you can achieve are:
 
@@ -38,7 +38,7 @@ The standard workflow is as follows:
  
 5. The app will need to grab said code and perform an `URLRequest` to the OAuth server where the code will be exchanged for an Access Token.
  
-  6. Once the app has gotten the Access Token it will be used to interact with private resources, such as fetching friends lists, users profiles and more.
+6. Once the app has gotten the Access Token it will be used to interact with private resources, such as fetching friends lists, users profiles and more.
 
 This workflow varies a bit on each social network, the differences will be outlined in their respective guides.
 
