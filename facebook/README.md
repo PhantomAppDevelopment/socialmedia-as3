@@ -46,7 +46,7 @@ private var webView:StageWebView;
 private var code:String;
 private var access_token:String;
 private var accessTokenLoader:URLLoader;
-rivate var profileLoader:URLLoader;
+private var profileLoader:URLLoader;
 ```
 Add a button and assign an `EventListener` to it when it gets pressed. The code of the EventListener should be as follows:
 
@@ -75,9 +75,9 @@ private function changeLocation(event:LocationChangeEvent):void
 	var location:String = webView.location;
 
 	if(location.indexOf("code=") != -1){
-			webView.dispose();
-			code = location.substr(location.indexOf("code=")+5, location.length);
-			getAccessToken();
+		webView.dispose();
+		code = location.substr(location.indexOf("code=")+5, location.length);
+		getAccessToken();
 	}			
 }
 ```
