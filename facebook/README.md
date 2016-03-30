@@ -39,8 +39,8 @@ Open the file where you want to implement the Sign-In feature.
 Add the following constants and variables:
 
 ```actionscript
-private static const CLIENT_ID:String = "824322104377922";
-private static const CLIENT_SECRET:String = "a0ac67f7bfcf30fad554eb7feb6a7390";
+private static const CLIENT_ID:String = "Your own Client ID";
+private static const CLIENT_SECRET:String = "Your own Client Secret";
 			
 private var webView:StageWebView;
 private var code:String;
