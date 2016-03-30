@@ -1,6 +1,6 @@
 # Google
 
-Integrating Google Accounts (Google+,Youtube, Google Apps) functionality in your application doesn't require external libraries.
+Integrating Google Accounts (Gmail, Google+, Youtube, Google Apps) functionality in your application doesn't require external libraries.
 
 ## Getting Started
 
@@ -10,17 +10,17 @@ Integrating Google Accounts (Google+,Youtube, Google Apps) functionality in your
   
 3. Type a name for your project and save it.
 
-4. On the left side you will see a button with 3 lines, click it and then select API Manager.
+4. On the left side you will see a button with 3 lines, click it and then select `API Manager`.
 
-5. Select Credentials and then click on the OAuth Consent Screen tab. Type a product name and save it.
+5. Select `Credentials` and then click in the `OAuth Consent Screen` tab. Type a product name and save it.
 
 ![Correct Settings](./images/1.png)
 
-6. Go to the Credentials tab, press the Create Credentials drop down list and select OAuth client ID. In Application Type select `Other`, type a name and save it.
+6. Go to the `Credentials` tab, press the `Create Credentials` drop down list and select `OAuth client ID`. In Application Type select `Other`, type a name and save it.
 
-7. A window will appear with your Client Id and Client Secret, copy them down and click Ok.
+7. A window will appear with your Client ID and Client Secret, copy them down and click Ok.
 
-8. On the left side, click on Overview and a list of APIs will appear on the right. Search the Google+ API and click it.
+8. In the left side, click `Overview` and a list of APIs will appear in the right. Search the Google+ API and click it.
 
 9. Click the `Enable` button and wait until the API is enabled.
 
@@ -49,7 +49,7 @@ private var profileLoader:URLLoader;
 Add a button and assign an `EventListener` to it when it gets pressed. The code of the EventListener should be as follows:
 
 ```actionscript
-private function windowedapplication1_applicationCompleteHandler(event:FlexEvent):void
+private function initSignIn():void
 {
 	webView = new StageWebView(true);
 	webView.addEventListener(LocationChangeEvent.LOCATION_CHANGE, changeLocation);
@@ -119,7 +119,8 @@ private function accessTokenReceived(event:Event):void
 }
 ```
 
-We converted the response from the URLRequest into a JSON object and took the `access_token` value and set it into a String.
+We converted the response from the `URLRequest` into a `JSON` object and took the `access_token` value and set it into a String.
+
 With the `access_token` we can connect to the Google APIs very easily, for example we are going to load the logged-in user profile information.
 
 
@@ -138,4 +139,5 @@ private function profileLoaded(event:Event):void
 ```
 
 You can check a list of all Scopes in the [OAuth 2.0 Scopes for Google APIs.](https://developers.google.com/identity/protocols/googlescopes#plusv1)
-Rememeber to Enable the corresponding APIs in the Google Developer Console.
+
+Rememeber to Enable the corresponding APIs in the [Google Developer console](https://console.developers.google.com/).

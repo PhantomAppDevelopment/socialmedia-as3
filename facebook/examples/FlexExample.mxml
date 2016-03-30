@@ -8,47 +8,37 @@
 			
 			private static const CLIENT_ID:String = "";
 			private static const CLIENT_SECRET:String = "";
-			
-			private var webView:StageWebView;			
+
+			private var webView:StageWebView;
 			private var code:String;
 			private var access_token:String;
 			private var accessTokenLoader:URLLoader;
 			private var profileLoader:URLLoader;
-						
 			
-			private function init(event:FlexEvent):void
+			protected function init(event:FlexEvent):void
 			{
 				webView = new StageWebView(true);
 				webView.addEventListener(LocationChangeEvent.LOCATION_CHANGE, changeLocation);
 				webView.stage = this.stage;
 				webView.viewPort = new Rectangle(0, 0, stage.stageWidth, stage.stageHeight);
-				webView.loadURL("https://accounts.google.com/o/oauth2/v2/auth?scope=email%20profile&redirect_uri=urn:ietf:wg:oauth:2.0:oob:auto&response_type=code&client_id="+CLIENT_ID);
+				webView.loadURL("https://www.facebook.com/dialog/oauth?client_id="+CLIENT_ID+"&redirect_uri=https://www.facebook.com/connect/login_success.html&scope=email");
 			}
 			
 			private function changeLocation(event:LocationChangeEvent):void
 			{
-				var pageTitle:String = webView.title;
-				
-				if(pageTitle.indexOf("code=") != -1){
+				var location:String = webView.location;
+						
+				if(location.indexOf("code=") != -1){
 					webView.dispose();
-					code = pageTitle.substr(pageTitle.indexOf("code=")+5, pageTitle.length);
-					
+					code = location.substr(location.indexOf("code=")+5, location.length);
 					getAccessToken();
-				}				
+				}
+								
 			}
 			
 			private function getAccessToken():void
 			{				
-				var urlVars:URLVariables = new URLVariables();
-				urlVars.code = code;
-				urlVars.client_id = CLIENT_ID;
-				urlVars.client_secret = CLIENT_SECRET;
-				urlVars.redirect_uri = "urn:ietf:wg:oauth:2.0:oob:auto";
-				urlVars.grant_type = "authorization_code";
-				
-				var request:URLRequest = new URLRequest("https://www.googleapis.com/oauth2/v4/token");
-				request.method = URLRequestMethod.POST;
-				request.data = urlVars;
+				var request:URLRequest = new URLRequest("https://graph.facebook.com/v2.3/oauth/access_token?client_id="+CLIENT_ID+"&redirect_uri=https://www.facebook.com/connect/login_success.html&client_secret="+CLIENT_SECRET+"&code="+code);
 				
 				accessTokenLoader = new URLLoader();
 				accessTokenLoader.addEventListener(Event.COMPLETE, accessTokenReceived);
@@ -56,7 +46,7 @@
 			}
 			
 			private function accessTokenReceived(event:Event):void
-			{				
+			{
 				var rawData:Object = JSON.parse(String(event.currentTarget.data));
 				access_token = rawData.access_token;
 				
@@ -66,8 +56,9 @@
 			private function loadProfileInfo():void
 			{
 				profileLoader = new URLLoader();
+				profileLoader.dataFormat = URLLoaderDataFormat.TEXT;
 				profileLoader.addEventListener(Event.COMPLETE, profileLoaded);
-				profileLoader.load(new URLRequest("https://www.googleapis.com/plus/v1/people/me?access_token="+access_token));
+				profileLoader.load(new URLRequest("https://graph.facebook.com/me/?access_token="+access_token+"&fields=name,email,picture.type(large)"));
 			}
 			
 			private function profileLoaded(event:Event):void
