@@ -3,14 +3,16 @@
 Integrating Twitter functionality in your application requires the following libraries:
 
 * A special version of [Twitter for AS3](https://github.com/susisu/Twitter-for-AS3) that supports PIN-less authorization (I included it for your convenience).
+
 * [AS3 Crypto.](http://crypto.hurlant.com/demo/as3crypto.swc)
+
 * An empty HTML file that can be reliable accessed over the internet.
 
 ## Getting Started
 
 1. Register in the [Twitter Developer portal](https://dev.twitter.com). You may be asked to provide a valid cellphone number to complete your registration.
   
-2. Once registered locate a button that says: 'Create New App' and click it.
+2. Once registered locate a button that says `Create New App` and click it.
   
 3. Fill all the fields as normally. Once you reach the Callback URL, provide the URL of the empty HTML file you have hosted. For example: `http://phantom.im/examples.html`
 
@@ -25,7 +27,7 @@ Integrating Twitter functionality in your application requires the following lib
 
 ## Implementation
 
-Open or create a new project and import Twitter for AS3 and AS3 Crypto.
+Open or create a new project and import `Twitter for AS3` and `AS3 Crypto`.
 
 Open the file where you want to implement the Sign-In feature.
 
@@ -42,7 +44,7 @@ private var credentialsRequest:TwitterRequest;
 Add a button and assign an `EventListener` to it when it gets pressed. The code of the EventListener should be as follows:
 
 ```actionscript
-private function buttonHandler():void
+private function initSignIn():void
 {
 	twitter = new Twitter(CONSUMER_KEY, CONSUMER_SECRET);
 				
@@ -64,7 +66,7 @@ private function requestComplete(event:TwitterRequestEvent):void
 }
 ```
 
-We initialized a StageWebView instance, set its dimensions to match the stage size and assigned the URL provided by the Twitter API. Now we are going to retrieve a token located in the URL.
+We initialized a `StageWebView` instance, set its dimensions to match the stage size and assigned the URL provided by the Twitter API. Now we are going to retrieve a token located in the URL.
 
 ```actionscript
 private function locationChange(event:LocationChangeEvent):void

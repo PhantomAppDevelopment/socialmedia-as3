@@ -18,7 +18,7 @@ Integrating Facebook API functionality in your application doesn't require exter
 
 6. Once authorized, copy down your `App ID` and `App Secret`. Set your `Contact Email` and `Save Changes`.
 
-7. Click the `Advanced` button, scroll down until you see the `Client OAuth Settings`. Make sure to turn `Yes` the following settings: `Embedded Browser OAuth Login` and `Login from Devices`. Scroll to the bottom and `Save Changes`.
+7. Click the `Advanced` button, scroll down until you reach the `Client OAuth Settings`. Make sure to turn `Yes` the following settings: `Embedded Browser OAuth Login` and `Login from Devices`. Scroll to the bottom and `Save Changes`.
 
 ![Correct Settings](./images/2.png)
 
@@ -61,7 +61,7 @@ private function initSignIn():void
 }
 ```
 
-We initialized a StageWebView instance, set its dimensions to match the stage size. We crafted a special URL that contains several parameters:
+We initialized a `StageWebView` instance, set its dimensions to match the stage size. We crafted a special URL that contains several parameters:
 
 * scope: The permissions we require from the OAuth server, in this case we require the user email address.
 
@@ -91,7 +91,7 @@ private function getAccessToken():void
 {				
 	var request:URLRequest = new URLRequest("https://graph.facebook.com/v2.3/oauth/access_token?client_id="+CLIENT_ID+"&redirect_uri=https://www.facebook.com/connect/login_success.html&client_secret="+CLIENT_SECRET+"&code="+code);
 
-	ccessTokenLoader = new URLLoader();
+	accessTokenLoader = new URLLoader();
 	accessTokenLoader.addEventListener(Event.COMPLETE, accessTokenReceived);
 	accessTokenLoader.load(request);
 }
