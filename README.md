@@ -18,9 +18,9 @@ Before you start you will require:
 * The Adobe AIR SDK, preferably a recent version.
 * The [AS3 Crypto](http://crypto.hurlant.com/demo/as3crypto.swc) library.
 
-These guides are compatible with the Apache Flex SDK, Starling Framework and pure AS3 in both Desktop and Mobile projects, you are free to choose the framework of your choice. The examples are provided for all 3 frameworks and are designed to be easily copied and pasted.
+These guides are compatible with the Apache Flex SDK, Starling Framework and pure AS3 in both Desktop and Mobile projects. The examples are provided for all 3 frameworks and are designed to be easily copied and pasted. You can access these examples with their respective guides by browsing this repository.
 
-These guides do not work in Flash Player projects because it doesn't support the StageWebView API. If you wish to integrate social media in your Flash Player file you can do it by using their JavaScript libraries and using the `ExternalInterface` API.
+These guides do not work in Flash Player projects because it doesn't support the StageWebView API. If you wish to integrate social media in your Flash Player project you can do it by using their JavaScript libraries and using the `ExternalInterface` API.
 
 ## Introduction to OAuth
 
@@ -28,7 +28,7 @@ The OAuth protocol allows third party applications to interact securely with pri
 
 The standard workflow is as follows:
 
-1. The user wants to access some feature in your app that requires a log-in.
+1. The user wants to access some feature in your app that require a log-in.
  
 2. The user is presented with a Sign-In button and presses it.
  
@@ -38,23 +38,23 @@ The standard workflow is as follows:
  
 5. The app will need to grab said code and perform an `URLRequest` to the OAuth server where the code will be exchanged for an Access Token.
  
-6. Once the app has gotten the Access Token it will be used to interact with private resources, such as fetching friends lists, users profiles and more.
+6. Once the app has gotten the Access Token, it will be used to interact with private resources, such as fetching friends lists, users profiles and more.
 
 This workflow varies a bit on each social network, the differences will be outlined in their respective guides.
 Each social network guide is separated into their own folder, feel free to read them in any order.
 
 ## Glossary
 
-| Name | Description |
-|:-----|:------------|
-| ``StageWebView`` | An Adobe AIR component that allows applications to show an embedded web browser. |
-| ``URLRequest`` | An ActionScript 3 class for creating and sending requests to external resources, such as web servers. |
-| ``App ID`` | A string unique to your application that identifies it to the OAuth server. Used as a parameter in a Request Token. |
-| ``Scope`` | A parameter in a Request Token that contains the permissions the app requires. |
-| ``Redirect URI/URL`` | A location where the StageWebView will be redirected upon a successful authorization. This location will contain a code/token that will be retrieved for creating a Token Request. |
-| ``OOB`` | Out-of-bounds, a special OAuth parameter that indicates that a PIN-less authorization is requested. |
-| ``Request Token:`` | A string containing several parameters which will be exchanged for an Access Token. |
-| ``Access Token`` | An alphanumeric string that is used as a parameter in URLRequests to access private resources. |
+Name | Description
+---|---
+``StageWebView`` | An Adobe AIR component that allows applications to show an embedded web browser.
+``URLRequest`` | An ActionScript 3 class for creating and sending requests to external resources, such as web servers.
+``App ID`` | A string unique to your application that identifies it to the OAuth server. Used as a parameter in a Request Token.
+``Scope`` | A parameter in a Request Token that contains the permissions the app requires.
+``Redirect URI/URL`` | A location where the StageWebView will be redirected upon a successful authorization. This location will contain a code/token that will be retrieved for creating a Token Request.
+``OOB`` | Out-of-bounds, a special OAuth parameter that indicates that a PIN-less authorization is requested.
+``Request Token`` | A string containing several parameters which will be exchanged for an Access Token.
+``Access Token`` | An alphanumeric string that is used as a parameter in URLRequests to access private resources.
 
 ## Donations
 
