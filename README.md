@@ -41,27 +41,23 @@ The standard workflow is as follows:
 6. Once the app has gotten the Access Token it will be used to interact with private resources, such as fetching friends lists, users profiles and more.
 
 This workflow varies a bit on each social network, the differences will be outlined in their respective guides.
+Each social network guide is separated into their own folder, feel free to read them in any order.
 
 ## Glossary
 
-* StageWebView: An Adobe AIR component that allows applications to show an embedded web browser.
+| Name | Description |
+|:-----|:------------|
+| ``StageWebView`` | An Adobe AIR component that allows applications to show an embedded web browser. |
+| ``URLRequest`` | An ActionScript 3 class for creating and sending requests to external resources, such as web servers. |
+| ``App ID`` | A string unique to your application that identifies it to the OAuth server. Used as a parameter in a Request Token. |
+| ``Scope`` | A parameter in a Request Token that contains the permissions the app requires. |
+| ``Redirect URI/URL`` | A location where the StageWebView will be redirected upon a successful authorization. This location will contain a code/token that will be retrieved for creating a Token Request. |
+| ``OOB`` | Out-of-bounds, a special OAuth parameter that indicates that a PIN-less authorization is requested. |
+| ``Request Token:`` | A string containing several parameters which will be exchanged for an Access Token. |
+| ``Access Token`` | An alphanumeric string that is used as a parameter in URLRequests to access private resources. |
 
-* URLRequest: An ActionScript 3 class for creating and sending requests to external resources, such as web servers.
+## Donations
 
-* App ID: A string unique to your application that identifies it to the OAuth server. Used as a parameter in a Request Token.
-
-* Scope: A parameter in a Request Token that contains the permissions the app requires.
-
-* Redirect URI/URL: A location where the StageWebView will be redirected upon a successful authorization. This location will contain a code/token that will be retrieved for creating a Token Request.
-
-* OOB: Out-of-bounds, a special OAuth parameter that indicates that a PIN-less authorization is requested.
-
-* Request Token: A string containing several parameters which will be exchanged for an Access Token.
-
-* Access Token: An alphanumeric string that is used as a parameter in URLRequests to access private resources.
-
-Each social network guide is separated into their own folder, feel free to read them in any order.
-
-Donations are not required but are greatly appreciated! Feel free to help grow this project.
+Donations are not required but are greatly appreciated. Feel free to support the development of free guides and examples.
 
 [![Donate](https://www.paypalobjects.com/en_US/i/btn/btn_donate_LG.gif)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=MQPLL355ZAKXW)
