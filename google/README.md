@@ -140,4 +140,4 @@ private function profileLoaded(event:Event):void
 
 You can check a list of all Scopes in the [OAuth 2.0 Scopes for Google APIs.](https://developers.google.com/identity/protocols/googlescopes#plusv1)
 
-Rememeber to Enable the corresponding APIs in the [Google Developer console](https://console.developers.google.com/).
+Remember to Enable the corresponding APIs in the [Google Developer console](https://console.developers.google.com/).
