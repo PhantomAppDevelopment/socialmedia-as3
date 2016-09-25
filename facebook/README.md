@@ -14,13 +14,15 @@ Integrating Facebook API functionality in your application doesn't require exter
 
 ![Correct Settings](./images/1.png)
 
-5. You will be redirected to your `Dashboard`, click the `Settings` option in the left side and then click the `Show` button (you will be asked for your Facebook password). 
+5. You will be redirected to your Dashboard, click the Get Started button next to the Facebook Login option.
 
-6. Once authorized, copy down your `App ID` and `App Secret`. Set your `Contact Email` and `Save Changes`.
+6. Configure the OAuth settings similar to the next image. Set the redirect URI to: `https://www.facebook.com/connect/login_success.html` and press the Save Changes button.
 
-7. Click the `Advanced` button, scroll down until you reach the `Client OAuth Settings`. Make sure to turn `Yes` the following settings: `Embedded Browser OAuth Login` and `Login from Devices`. Scroll to the bottom and `Save Changes`.
 
 ![Correct Settings](./images/2.png)
+
+7. Click Settings in the left side menu. You will be presented with a screen with your `App ID` and `App `, you will be required to provide your Facebook password to see the `App Secret`.
+8. Once authorized, copy down your `App ID` and `App Secret`. We are going to use them in a later step.
 
 At this point the Facebook API will only work with your own Facebook Account, in order for it to work on any account you need to switch your app status from `development` to `public`.
 
@@ -28,7 +30,7 @@ At this point the Facebook API will only work with your own Facebook Account, in
 
 9. In the `Make [Your App Name] public?` section turn it to `Yes`. A pop-up will appear asking if you want to make your app public, click the `Confirm` button.
 
-With these settings your app will only be allowed to do reading operations with the Facebook API. If you want to do writing operations such as `Liking` and posting to the user wall you must submit your app for review.
+With these settings your app will only be allowed to do basic reading operations with the Facebook API. If you want to do writing operations such as `Liking` and `Posting` to the user wall you must submit your app for review.
 
 ## Implementation
 

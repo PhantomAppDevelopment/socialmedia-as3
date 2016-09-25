@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:WindowedApplication xmlns:fx="http://ns.adobe.com/mxml/2009" 
+					   xmlns:s="library://ns.adobe.com/flex/spark" 
+					   xmlns:mx="library://ns.adobe.com/flex/mx" minWidth="800" minHeight="600" applicationComplete="initSignIn()">
+	<fx:Script>
+		<![CDATA[			
+			
+			private static const CLIENT_ID:String = "";
+			private static const CLIENT_SECRET:String = "";
+			private static const REDIRECT_URI:String = "";
+			
+			private var webView:StageWebView;
+			private var code:String;
+			private var accessTokenLoader:URLLoader;
+			
+			private function initSignIn():void
+			{
+				webView = new StageWebView(true);
+				webView.addEventListener(LocationChangeEvent.LOCATION_CHANGE, changeLocation);
+				webView.stage = this.stage;
+				webView.viewPort = new Rectangle(0, 0, stage.stageWidth, stage.stageHeight);
+				webView.loadURL("https://api.instagram.com/oauth/authorize/?client_id="+CLIENT_ID+"&redirect_uri="+REDIRECT_URI+"&response_type=code");
+			}
+			
+			private function changeLocation(event:LocationChangeEvent):void
+			{
+				var location:String = webView.location;
+				
+				if(location.indexOf("code=") != -1){
+					webView.dispose();
+					code = location.substr(location.indexOf("code=")+5, location.length);
+					getAccessToken();
+				}
+				
+			}
+			
+			private function getAccessToken():void
+			{
+				var urlVars:URLVariables = new URLVariables();
+				urlVars.client_id = CLIENT_ID;
+				urlVars.client_secret = CLIENT_SECRET;
+				urlVars.grant_type = "authorization_code";
+				urlVars.redirect_uri = REDIRECT_URI;
+				urlVars.code = code;
+				
+				var request:URLRequest = new URLRequest("https://api.instagram.com/oauth/access_token");
+				request.method = URLRequestMethod.POST;
+				request.data = urlVars;
+				
+				accessTokenLoader = new URLLoader();
+				accessTokenLoader.addEventListener(Event.COMPLETE, accessTokenReceived);
+				accessTokenLoader.load(request);
+			}
+			
+			private function accessTokenReceived(event:Event):void
+			{
+				trace(event.currentTarget.data);
+				var rawData:Object = JSON.parse(String(event.currentTarget.data));
+			}		
+			
+		]]>
+	</fx:Script>	
+	
+</s:WindowedApplication>

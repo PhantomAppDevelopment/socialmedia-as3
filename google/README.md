@@ -46,6 +46,7 @@ private var access_token:String;
 private var accessTokenLoader:URLLoader;
 private var profileLoader:URLLoader;
 ```
+
 Add a button and assign an `EventListener` to it when it gets pressed. The code of the EventListener should be as follows:
 
 ```actionscript
