@@ -76,7 +76,7 @@ private function changeLocation(event:LocationChangeEvent):void
 {
 	var location:String = webView.location;
 
-	if(location.indexOf("code=") != -1){
+	if(location.indexOf("code=") != -1 && location.indexOf("error") == -1){
 		webView.dispose();
 		code = location.substr(location.indexOf("code=")+5, location.length);
 		getAccessToken();
