@@ -174,7 +174,7 @@ private function initSignIn():void
 	webView.loadURL("https://accounts.google.com/o/oauth2/v2/auth?scope=email%20profile&redirect_uri=urn:ietf:wg:oauth:2.0:oob:auto&response_type=code&client_id="+CLIENT_ID);
 	codeTimer = new Timer(2000);
 	codeTImer.addEventListener(TimerEvent.TIMER, checkCode);
-	codeTimer.start);
+	codeTimer.start();
 }
 ```
 
