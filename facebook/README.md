@@ -1,5 +1,7 @@
 # Facebook
 
+**ATTENTION: THIS GUIDE DOESN't WORK IN MOBILE DEVICES, PLEASE USE THE [FIREBASE FACEBOOK AUTH GUIDE](https://github.com/PhantomAppDevelopment/firebase-as3/tree/master/auth/facebook) INSTEAD**
+
 Integrating Facebook API functionality in your application doesn't require external libraries.
 
 ## Getting Started
@@ -16,13 +18,15 @@ Integrating Facebook API functionality in your application doesn't require exter
 
 5. You will be redirected to your Dashboard, click the Get Started button next to the Facebook Login option.
 
-6. Configure the OAuth settings similar to the next image. Set the redirect URI to: `https://www.facebook.com/connect/login_success.html` and press the Save Changes button.
+6. You will be asked to `Choose a Platform`. Select `Other`.
+
+7. Configure the OAuth settings similar to the next image. Set the redirect URI to: `https://www.facebook.com/connect/login_success.html` and press the Save Changes button.
 
 
 ![Correct Settings](./images/2.png)
 
-7. Click Settings in the left side menu. You will be presented with a screen with your `App ID` and `App `, you will be required to provide your Facebook password to see the `App Secret`.
-8. Once authorized, copy down your `App ID` and `App Secret`. We are going to use them in a later step.
+8. Click Settings in the left side menu. You will be presented with a screen with your `App ID` and `App Secret`, you will be required to provide your Facebook password to see the `App Secret`.
+9. Once authorized, copy down your `App ID` and `App Secret`. We are going to use them in a later step.
 
 At this point the Facebook API will only work with your own Facebook Account, in order for it to work on any account you need to switch your app status from `development` to `public`.
 

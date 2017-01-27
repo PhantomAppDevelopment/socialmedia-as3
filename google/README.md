@@ -139,6 +139,128 @@ private function profileLoaded(event:Event):void
 }
 ```
 
+## Alternative Implementation
+
+The previous method may not work in mobile devices and in certain desktop configurations. This happens because the `LocationChangeEvent.LOCATION_CHANGE` is not getting fired when a successful login has completed.
+
+A simple workaround is to create a `Timer` and keep track of the `title` property from the `webView` object. You may also consider using the [Firebase Auth Google guide](https://github.com/PhantomAppDevelopment/firebase-as3/tree/master/auth) which is more reliable and future proof.
+
+Open or create a new project.
+
+Open the file where you want to implement the Sign-In feature.
+
+Add the following constants and variables:
+
+```actionscript
+private static const CLIENT_ID:String = "Your own Client ID";
+private static const CLIENT_SECRET:String = "Your own Client Secret";
+			
+private var webView:StageWebView;			
+private var code:String;
+private var access_token:String;
+private var accessTokenLoader:URLLoader;
+private var profileLoader:URLLoader;
+private var codeTimer:Timer;
+```
+
+Add a button and assign an `EventListener` to it when it gets pressed. The code of the EventListener should be as follows:
+
+```actionscript
+private function initSignIn():void
+{
+	webView = new StageWebView(true);
+	webView.stage = this.stage;
+	webView.viewPort = new Rectangle(0, 0, stage.stageWidth, stage.stageHeight);
+	webView.loadURL("https://accounts.google.com/o/oauth2/v2/auth?scope=email%20profile&redirect_uri=urn:ietf:wg:oauth:2.0:oob:auto&response_type=code&client_id="+CLIENT_ID);
+	codeTimer = new Timer(2000);
+	codeTImer.addEventListener(TimerEvent.TIMER, checkCode);
+	codeTimer.start);
+}
+```
+
+We initialized a StageWebView instance, set its dimensions to match the stage size. We crafted a special URL that contains several parameters:
+
+* scope: The permissions we require from the OAuth server, in this case we require the user email address and their basic profile information.
+
+*  redirect_uri: We provided a special string that tells OAuth we want a PIN-less authentication.
+
+* response_type: We only require a `code` as a response.
+
+* client_id: Your Client ID.
+
+We also created a Timer object that will run every 2000 milliseconds to check if a `code` exists in the title of the `webView` object.
+
+```actionscript
+private function checkCode(event:TimerEvent):void
+{
+	var pageTitle:String = webView.title;
+				
+	if(pageTitle.indexOf("code=") != -1){
+		codeTimer.removeEventListener(TimerEvent.TIMER, checkCode);
+		codeTimer = null;		
+		webView.dispose();
+		code = pageTitle.substr(pageTitle.indexOf("code=")+5, pageTitle.length);
+					
+		getAccessToken();
+	}				
+}
+```
+
+Once a web page contains the `code` parameter in its Title we dispose the StageWebView and the Timer object, then we extract the parameter to a variable.
+
+Then we called a custom function `getAccessToken()` where we are going to create an `URLRequest` to exchange the `code` for an `access_token`.
+
+```actionscript
+private function getAccessToken():void
+{				
+	var urlVars:URLVariables = new URLVariables();
+	urlVars.code = code;
+	urlVars.client_id = CLIENT_ID;
+	urlVars.client_secret = CLIENT_SECRET;
+	urlVars.redirect_uri = "urn:ietf:wg:oauth:2.0:oob:auto";
+	urlVars.grant_type = "authorization_code";
+				
+	var request:URLRequest = new URLRequest("https://www.googleapis.com/oauth2/v4/token");
+	request.method = URLRequestMethod.POST;
+	request.data = urlVars;
+				
+	accessTokenLoader = new URLLoader();
+	accessTokenLoader.addEventListener(Event.COMPLETE, accessTokenReceived);
+	accessTokenLoader.load(request);
+}
+```
+
+We sent all the parameters in a `POST` request and added an `EventListener` which will contain the `access_token`.
+
+```actionscript
+private function accessTokenReceived(event:Event):void
+{				
+	var rawData:Object = JSON.parse(String(event.currentTarget.data));
+	access_token = rawData.access_token;
+				
+	loadProfileInfo();
+}
+```
+
+We converted the response from the `URLRequest` into a `JSON` object and took the `access_token` value and set it into a String.
+
+With the `access_token` we can connect to the Google APIs very easily, for example we are going to load the logged-in user profile information.
+
+
+```actionscript
+private function loadProfileInfo():void
+{
+	profileLoader = new URLLoader();
+	profileLoader.addEventListener(Event.COMPLETE, profileLoaded);
+	profileLoader.load(new URLRequest("https://www.googleapis.com/plus/v1/people/me?access_token="+access_token));
+}
+			
+private function profileLoaded(event:Event):void
+{
+	trace(event.currentTarget.data);
+}
+```
+
 You can check a list of all Scopes in the [OAuth 2.0 Scopes for Google APIs.](https://developers.google.com/identity/protocols/googlescopes#plusv1)
 
 Remember to Enable the corresponding APIs in the [Google Developer console](https://console.developers.google.com/).
