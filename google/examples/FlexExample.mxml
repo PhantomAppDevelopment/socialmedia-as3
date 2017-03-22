@@ -1,81 +1,98 @@
 <?xml version="1.0" encoding="utf-8"?>
-<s:WindowedApplication xmlns:fx="http://ns.adobe.com/mxml/2009" 
-					   xmlns:s="library://ns.adobe.com/flex/spark" 
-					   xmlns:mx="library://ns.adobe.com/flex/mx" minWidth="800" minHeight="600" applicationComplete="init(event)">
-	<fx:Script>
+<s:WindowedApplication xmlns:fx="http://ns.adobe.com/mxml/2009"
+                       xmlns:s="library://ns.adobe.com/flex/spark"
+                       xmlns:mx="library://ns.adobe.com/flex/mx" minWidth="800" minHeight="600" applicationComplete="init(event)">
+    <fx:Script>
 		<![CDATA[
-			import mx.events.FlexEvent;
-			
-			private static const CLIENT_ID:String = "";
-			private static const CLIENT_SECRET:String = "";
-			
-			private var webView:StageWebView;			
-			private var code:String;
-			private var access_token:String;
-			private var accessTokenLoader:URLLoader;
-			private var profileLoader:URLLoader;
-						
-			
-			private function init(event:FlexEvent):void
-			{
-				webView = new StageWebView(true);
-				webView.addEventListener(LocationChangeEvent.LOCATION_CHANGE, changeLocation);
-				webView.stage = this.stage;
-				webView.viewPort = new Rectangle(0, 0, stage.stageWidth, stage.stageHeight);
-				webView.loadURL("https://accounts.google.com/o/oauth2/v2/auth?scope=email%20profile&redirect_uri=urn:ietf:wg:oauth:2.0:oob:auto&response_type=code&client_id="+CLIENT_ID);
-			}
-			
-			private function changeLocation(event:LocationChangeEvent):void
-			{
-				var pageTitle:String = webView.title;
-				
-				if(pageTitle.indexOf("code=") != -1){
-					webView.dispose();
-					code = pageTitle.substr(pageTitle.indexOf("code=")+5, pageTitle.length);
-					
-					getAccessToken();
-				}				
-			}
-			
-			private function getAccessToken():void
-			{				
-				var urlVars:URLVariables = new URLVariables();
-				urlVars.code = code;
-				urlVars.client_id = CLIENT_ID;
-				urlVars.client_secret = CLIENT_SECRET;
-				urlVars.redirect_uri = "urn:ietf:wg:oauth:2.0:oob:auto";
-				urlVars.grant_type = "authorization_code";
-				
-				var request:URLRequest = new URLRequest("https://www.googleapis.com/oauth2/v4/token");
-				request.method = URLRequestMethod.POST;
-				request.data = urlVars;
-				
-				accessTokenLoader = new URLLoader();
-				accessTokenLoader.addEventListener(Event.COMPLETE, accessTokenReceived);
-				accessTokenLoader.load(request);
-			}
-			
-			private function accessTokenReceived(event:Event):void
-			{				
-				var rawData:Object = JSON.parse(String(event.currentTarget.data));
-				access_token = rawData.access_token;
-				
-				loadProfileInfo();
-			}
-			
-			private function loadProfileInfo():void
-			{
-				profileLoader = new URLLoader();
-				profileLoader.addEventListener(Event.COMPLETE, profileLoaded);
-				profileLoader.load(new URLRequest("https://www.googleapis.com/plus/v1/people/me?access_token="+access_token));
-			}
-			
-			private function profileLoaded(event:Event):void
-			{
-				trace(event.currentTarget.data);
-			}
-			
-		]]>
+        import mx.events.FlexEvent;
+
+        private static const CLIENT_ID:String = "99468011554-dush1glmmcmugd2deftomcvnn45p4vm5.apps.googleusercontent.com";
+        private static const CLIENT_SECRET:String = "Xe2tQk8dhVkWrqNlDkFsZk6q";
+
+        private var redirect_uri:String = "http://[::1]:9005";
+        private var serverSocket:ServerSocket;
+        private var clientSocket:Socket;
+
+        private function init(event:FlexEvent):void
+        {
+            serverSocket = new ServerSocket();
+            serverSocket.addEventListener( flash.events.Event.CONNECT, connectHandler);
+
+            serverSocket.bind(9005, "::");
+            serverSocket.listen();
+
+            var request:URLRequest = new URLRequest("https://accounts.google.com/o/oauth2/v2/auth?scope=email%20profile&" +
+                    "response_type=code&redirect_uri=" + redirect_uri + "&client_id=" + CLIENT_ID);
+
+            navigateToURL(request);
+        }
+
+        private function connectHandler(event:ServerSocketConnectEvent):void
+        {
+            clientSocket = event.socket;
+            clientSocket.addEventListener(ProgressEvent.SOCKET_DATA, socketDataHandler);
+        }
+
+        private function socketDataHandler(event:ProgressEvent):void
+        {
+            clientSocket = event.currentTarget as Socket;
+
+            var message:String = clientSocket.readUTFBytes(clientSocket.bytesAvailable);
+
+            if(message.indexOf("GET /?code") == 0)
+            {
+                var startIndex:int = message.indexOf("?code=")+6;
+                var endIndex:int = message.indexOf("HTTP/1.1")-12;
+                var myCode:String = message.substr(startIndex, endIndex);
+
+                exchangeCode(myCode);
+
+                clientSocket.writeUTFBytes("<html><body><h1>You have been successfully authenticated. Please return back to the application.</h1></body></html>");
+                clientSocket.flush();
+                clientSocket.close();
+
+            } else {
+                //Code not found
+            }
+        }
+
+        private function exchangeCode(code:String):void
+        {
+            var urlVars:URLVariables = new URLVariables();
+            urlVars.code = code;
+            urlVars.client_id = CLIENT_ID;
+            urlVars.client_secret = CLIENT_SECRET;
+            urlVars.redirect_uri = redirect_uri;
+            urlVars.grant_type = "authorization_code";
+
+            var request:URLRequest = new URLRequest("https://www.googleapis.com/oauth2/v4/token");
+            request.method = URLRequestMethod.POST;
+            request.data = urlVars;
+
+            var loader:URLLoader = new URLLoader();
+            loader.addEventListener(flash.events.Event.COMPLETE, codeExchanged);
+            loader.load(request);
+        }
+
+        private function codeExchanged(event:flash.events.Event):void
+        {
+            var rawData:Object = JSON.parse(String(event.currentTarget.data));
+            loadProfileInfo(rawData.access_token);
+        }
+
+        private function loadProfileInfo(access_token:String):void
+        {
+            var loader:URLLoader = new URLLoader();
+            loader.addEventListener(flash.events.Event.COMPLETE, profileLoaded);
+            loader.load(new URLRequest("https://www.googleapis.com/plus/v1/people/me?access_token="+access_token));
+        }
+
+        private function profileLoaded(event:flash.events.Event):void
+        {
+            trace(event.currentTarget.data);
+        }
+
+        ]]>
 	</fx:Script>
-	
+
 </s:WindowedApplication>
