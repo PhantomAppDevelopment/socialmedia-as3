@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<s:WindowedApplication xmlns:fx="http://ns.adobe.com/mxml/2009"
-                       xmlns:s="library://ns.adobe.com/flex/spark"
-                       xmlns:mx="library://ns.adobe.com/flex/mx" minWidth="800" minHeight="600" applicationComplete="init(event)">
+<s:WindowedApplication 
+    xmlns:fx="http://ns.adobe.com/mxml/2009" 
+    xmlns:s="library://ns.adobe.com/flex/spark" 
+    xmlns:mx="library://ns.adobe.com/flex/mx" minWidth="800" minHeight="600" applicationComplete="init(event)">
     <fx:Script>
-		<![CDATA[
+        <![CDATA[
         import mx.events.FlexEvent;
 
-        private static const CLIENT_ID:String = "99468011554-dush1glmmcmugd2deftomcvnn45p4vm5.apps.googleusercontent.com";
-        private static const CLIENT_SECRET:String = "Xe2tQk8dhVkWrqNlDkFsZk6q";
+        private static const CLIENT_ID:String = "";
+        private static const CLIENT_SECRET:String = "";
 
         private var redirect_uri:String = "http://[::1]:9005";
         private var serverSocket:ServerSocket;
@@ -93,6 +94,5 @@
         }
 
         ]]>
-	</fx:Script>
-
+    </fx:Script>
 </s:WindowedApplication>
